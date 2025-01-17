@@ -62,4 +62,18 @@ To run scripts in the proper environment, use:
 ```
 julia --project=. <script_name>.jl
 ```
-````
+
+## Disclaimers
+
+### Code Organization
+
+Users should strive to make their code modular and avoid repetition. The `src` and `scripts` folders have distinct purposes:
+
+- If including `file.jl` produces any output (data files, plots, or console output), it should be placed in `scripts`.
+- If it contains functionality used across multiple files or pipelines, it should be in `src`.
+- `src` should only contain files that define functions or types but do not produce any output.
+
+### Project Scope
+
+This project is designed as a scientific project using DrWatson. It is not intended to be developed as a package. For information on developing a Julia package, refer to [Developing Packages](https://julialang.org/contribute/developing_package/).
+```

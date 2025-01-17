@@ -1,17 +1,18 @@
-using DrWatson, Test
-@quickactivate "QuantumJulia"
+using DrWatson
+@quickactivate :QuantumJulia
+
+using Test
 
 # Here you include files using `srcdir`
 # include(srcdir("file.jl"))
 
 # Run test suite
 println("Starting tests")
-ti = time()
 
 @testset "QuantumJulia tests" begin
-    @test 1 == 1
-end
 
-ti = time() - ti
-println("\nTest took total time of:")
-println(round(ti/60, digits = 3), " minutes")
+    @testset "Basis tests" begin
+        include("./basis_test.jl")
+    end
+
+end
