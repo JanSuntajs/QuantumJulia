@@ -77,6 +77,19 @@ To run scripts in the proper environment, use:
 julia --project=. <script_name>.jl
 ```
 
+## Notebooks
+
+Notebooks are located in the `/notebooks` folder (how convenient!). You'll notice they are in the form of
+`.jl` files and formatted as scripts rather than `.ipynb` files you're used to. This is to reduce the cluttering
+due to different cell evaluations when version controlling this project. To generate `.ipynb` files, run the
+following script:
+```bash
+julia --project=. deps/build_notebooks.jl
+```
+This will generate the notebooks in the folder `generated_notebooks`. Note that the latter folder is not version
+controlled so that you can play around without doing any harm (most likely). If you wish to restore the notebooks to
+their original script, just rerun the build script.
+
 ## Disclaimers
 
 ### Code Organization
