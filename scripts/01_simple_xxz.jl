@@ -19,6 +19,7 @@ using QuantumJulia
 using BenchmarkTools
 using KrylovKit
 
+# feel free to update and ramp these up
 const L = 12
 const nup = 6
 const J = 1.
@@ -33,6 +34,11 @@ ham = XXZHamiltonian(basis, J, Δ)
 println(ham._isset)
 
 # diagonalize
+# we use the method eigsolve from KrylovKit in this
+# case. We use the default settings of the solver, but the
+# formulation of diagonalize allows for both the specification of
+# the additional positional and keyword arguments
+# https://jutho.github.io/KrylovKit.jl/stable/man/eig/
 λ, V = diagonalize(ham; method=:krylov)
 
 println(λ)
