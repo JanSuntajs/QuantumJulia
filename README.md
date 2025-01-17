@@ -23,11 +23,25 @@ To install Julia, follow the instructions in the [Julia installation manual](htt
 
 ### Getting Started
 
+Here are some useful resources for getting started with Julia computations and projects in general.
+
 - [Getting started](https://docs.julialang.org/en/v1/manual/getting-started/)
 - [Several Tutorials](https://julialang.org/learning/tutorials/)
 - [Julia Tutorial for Science and Engineering](https://www.matecdev.com/posts/julia-tutorial-science-engineering.html)
 - [Numerical Computing](https://www.matecdev.com/posts/julia-numerical-computing.html)
 - [Zero2Hero videos (by the author of DrWatson)](https://www.youtube.com/watch?v=Fi7Pf2NveH0)
+
+Since one of the main goals of these tutorials is writing efficient Julia code, this is also a
+welcome resource and basically a must read:
+- [Writing efficient Julia code](https://docs.julialang.org/en/v1/manual/performance-tips/).
+We'll try to cover some of these notes in practice. For us, some of the most important are:
+   * [put performance critical code inside functions](https://docs.julialang.org/en/v1/manual/performance-tips/#Performance-critical-code-should-be-inside-a-function)
+   * [write type-stable functions](https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions)
+   * [pre-allocate outputs](https://docs.julialang.org/en/v1/manual/performance-tips/#Pre-allocating-outputs)
+   * [access array in the column-major memory order](https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-column-major) (this is opposite to C and Python, but similar to Fortran)
+   * [use multithreading if possible](https://docs.julialang.org/en/v1/manual/performance-tips/#man-multithreading-linear-algebra)
+   * [look into alternatives to OpenBLAS](https://docs.julialang.org/en/v1/manual/performance-tips/#man-backends-linear-algebra) for linear algebra operations
+   * [benchmark your code](https://docs.julialang.org/en/v1/manual/performance-tips/#Measure-performance-with-[@time](@ref)-and-pay-attention-to-memory-allocation)
 
 ## Reproducing the Project
 
