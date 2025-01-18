@@ -6,6 +6,7 @@ using DrWatson
 using QuantumJulia
 using BenchmarkTools
 using Random: rand
+import PyPlot as plt
 
 # We now select some sensible model parameters.
 # Feel free to play around with them.
@@ -51,5 +52,11 @@ println(ham._isset)
 sprob = SurvivalProbability(λ, V, ψ0)
 # We have now just initiated the survival probability struct but
 # have not yet calculated the survival probability at a given time.
+times = exp10.(range(-3, stop=4, length=1000));
+probvals = sprob.(times);
+#
+fig = plt.figure()
 
+plt.loglog(times, probvals)
+plt.gcf()
 

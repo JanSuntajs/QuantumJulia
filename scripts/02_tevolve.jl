@@ -17,20 +17,19 @@ using DrWatson
 
 using QuantumJulia
 using BenchmarkTools
-using KrylovKit
 using Random: rand
 
 # Feel free to update and ramp these parameters up
-const L = 10
-const nup = 5
-const J = 1.
-const Δ = 1.
-const W = 5.
-const fields = W * rand(L)
+const L::Int64 = 16
+const nup::Int64 = 8
+const J::Float64 = 1.
+const Δ::Float64 = 1.
+const W::Float64 = 5.
+const fields::Vector{Float64} = W * rand(L)
 
-const basis = Basis(L, nup)
+const basis::Basis = Basis(L, nup)
 # This will create the Hamiltonian, but not build it yet.
-ham = XXZHamiltonian(basis, J, Δ, fields)
+ham::XXZHamiltonian = XXZHamiltonian(basis, J, Δ, fields)
 
 @btime buildham!(ham)
 
@@ -42,7 +41,14 @@ println(ham._isset)
 # formulation of diagonalize allows for both the specification of
 # the additional positional and keyword arguments
 # https://jutho.github.io/KrylovKit.jl/stable/man/eig/
+println("Starting diagonalization!")
+@btime λ, V = diagonalize(ham; method=:dense);
+println("Diagonalization done!")
 λ, V = diagonalize(ham; method=:dense);
+# Now calculate the survival probability.
+ψ0 = random_gaussian_state(basis.nstates)
+@time sprob = SurvivalProbability(λ, V, ψ0)
 
-println(λ)
-
+times = exp10.(range(-3, stop=4, length=1000));
+probvals = similar(times)
+@time probvals .= sprob.(times);
