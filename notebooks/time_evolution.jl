@@ -5,7 +5,6 @@ using DrWatson
 
 using QuantumJulia
 using BenchmarkTools
-using KrylovKit
 using Random: rand
 
 # We now select some sensible model parameters.
@@ -40,5 +39,17 @@ println(ham._isset)
 #
 # Expanding, we need to evaluate the following:
 # $$
-#  P(t) = \sum_\alpha |c_\alpha|^2 \exp(-i E_\alpha t).
+#  P(t) = |\sum_\alpha |c_\alpha|^2 \exp(-i E_\alpha t)|^2.
 # $$
+# Each $c_\alpha$ is just the result of a dot product between the
+# column of the V matrix and the initial state vector. We have
+# conveniently prepared all the neccessary bits in the SurvivalProbability
+# struct. To see the implementation, see `src/states.jl`.
+# 
+# First, we prepare the random Gaussian state:
+ψ0 = random_gaussian_state(basis.nstates)
+sprob = SurvivalProbability(λ, V, ψ0)
+# We have now just initiated the survival probability struct but
+# have not yet calculated the survival probability at a given time.
+
+

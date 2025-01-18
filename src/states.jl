@@ -83,7 +83,7 @@ sprob = SurvivalProbability(rand(10), rand(ComplexF64, 10, 10), rand(ComplexF64,
 prob = sprob(1.0)
 ```
 """
-function (sprob::SurvivalProbability{T})(t::Real) where {T <: Real}
-    return sprob.coeffs ⋅ exp.(-1im * sprob.λ * t)
+@inline function (sprob::SurvivalProbability{T})(t::Real)::T  where {T <: Real}
+    return abs2(sprob.coeffs ⋅ exp.(-1im * sprob.λ * t))
 end
 
