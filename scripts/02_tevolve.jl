@@ -18,16 +18,19 @@ using DrWatson
 using QuantumJulia
 using BenchmarkTools
 using KrylovKit
+using Random: rand
 
 # Feel free to update and ramp these parameters up
-const L = 12
-const nup = 6
+const L = 10
+const nup = 5
 const J = 1.
 const Δ = 1.
+const W = 5.
+const fields = W * rand(L)
 
 const basis = Basis(L, nup)
-
-ham = XXZHamiltonian(basis, J, Δ)
+# This will create the Hamiltonian, but not build it yet.
+ham = XXZHamiltonian(basis, J, Δ, fields)
 
 @btime buildham!(ham)
 
@@ -39,8 +42,7 @@ println(ham._isset)
 # formulation of diagonalize allows for both the specification of
 # the additional positional and keyword arguments
 # https://jutho.github.io/KrylovKit.jl/stable/man/eig/
-λ, V = diagonalize(ham; method=:krylov)
+λ, V = diagonalize(ham; method=:dense);
 
 println(λ)
 
-# find the ground state

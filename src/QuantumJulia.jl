@@ -47,6 +47,9 @@ module QuantumJulia
     include("./hamiltonian.jl")
     include("./buildham.jl")
     include("./diagonalize.jl")
+    include("./states.jl")
 
     export Basis, XXZHamiltonian, buildham!, diagonalize
+    export random_gaussian_state
+    export SurvivalProbability
 end

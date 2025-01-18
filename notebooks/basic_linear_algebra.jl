@@ -208,11 +208,11 @@ f(x) = 3x.^2 + 4x + 7x.^3;
 #= equivalent to 3 .* x.^2 .+ 4 .* x .+ 7 .* x.^3 =#
 fdot(x) = @. 3x^2 + 4x + 7x^3; 
 #
-@btime f(x) setup = (X=collect(1:10000));
+@btime f(X) setup = (X=collect(1:10000));
 #
-@btime fdot(x) setup=(X=collect(1:10000));
+@btime fdot(X) setup=(X=collect(1:10000));
 #
-@btime f.(x) setup = (x=collect(1:10000));
+@btime f.(X) setup = (X=collect(1:10000));
 
 # ## Views, slices, to copy or not to copy?
 
@@ -278,6 +278,8 @@ function outplace_add(Z, Y; n=100)
     return Z
 end
 #
+X = rand(1000, 1000)
+Y = rand(1000, 1000)
 Z1 = copy(X);
 Z2 = copy(X);
 Z1
