@@ -27,6 +27,8 @@ const Δ::Float64 = 1.
 const W::Float64 = 5.
 const fields::Vector{Float64} = W * rand(L)
 
+params = @dict L nup J Δ W
+
 const basis::Basis = Basis(L, nup)
 # This will create the Hamiltonian, but not build it yet.
 ham::XXZHamiltonian = XXZHamiltonian(basis, J, Δ, fields)
@@ -52,3 +54,26 @@ println("Diagonalization done!")
 times = exp10.(range(-3, stop=4, length=1000));
 probvals = similar(times)
 @time probvals .= sprob.(times);
+
+# ## Saving the results using DrWatson
+# See [this](https://juliadynamics.github.io/DrWatson.jl/stable/workflow/) for
+# more tips and information on how to leverage DrWatson to save results.
+
+# To format the filename, do: 
+filename = savename("xxz_benchmark", params, "jld2")
+# We will be using the `JLD2` format to store the data in a self-descriptive way 
+# appropriate for Julia workflows. To store the results, the saving function expects 
+# a dictionary of key-value pairs, with the former being the variable names and the 
+# latter the results (or other quantities) to be stored.
+# *Note*: if you plan to mix different programming languages, some other format, such
+# as HDF5, might be more appropriate.
+
+# This will parse the results as a dictionary which we will later
+# save using the `tagsave` function.
+results = @dict times probvals V λ ψ0
+
+# DrWatson allows for many different ways to save files. This one is particularly useful,
+# as it also encludes the tag of the git commit indicating the state of the project at the time
+# of the simulation. If one commits the code on a regular basis, this can be very useful in
+# ensuring reproducibility of the results.
+tagsave(datadir("sims", filename), results);
