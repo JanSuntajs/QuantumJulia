@@ -43,6 +43,8 @@ module QuantumJulia
 
     include("./operators/operators.jl")
     using .Operators
+    include("./operators/spoperators.jl")
+    using .SpOperators
     include("./basis.jl")
     include("./hamiltonian.jl")
     include("./buildham.jl")

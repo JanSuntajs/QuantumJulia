@@ -17,6 +17,8 @@
 #
 # ## Usage
 # Below, we show how to use the package in the context of the simple XXZ model.
+using DrWatson
+@quickactivate :QuantumJulia
 
 using Random
 using BenchmarkTools

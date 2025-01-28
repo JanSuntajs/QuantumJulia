@@ -1,7 +1,5 @@
-using SparseArrays
-import LuxurySparse as ls
-import LinearAlgebra: I
-using BenchmarkTools
+
+# using BenchmarkTools
 
 const sx = ls.staticize(sparse([1, 2], [2, 1], [0.5, 0.5], 2, 2))
 const sy = ls.staticize(sparse([1, 2], [2, 1], [-0.5im, 0.5im], 2, 2))
@@ -74,7 +72,7 @@ function _build_local_term(local_terms, local_couplings::Vector{LC}, sitevec::Ve
 end
 
 
-function build_local_terms(local_terms, local_couplings::Vector{Vector{LC}}, sites::Vector{Vector{SV}}, N::SV) where {LC <: Number, SV <:Integer}
+function buildham(local_terms, local_couplings::Vector{Vector{LC}}, sites::Vector{Vector{SV}}, N::SV) where {LC <: Number, SV <:Integer}
 
     mat = ls.spzeros(2^N, 2^N)
 
@@ -88,11 +86,11 @@ end
 
 function _make_diffs(sitevec, N)
 
-    diffs = diff([1, sitevec..., N])#[1; sitevec; N]
+    diffs = diff([0, sitevec..., N-1])#[1; sitevec; N]
     diffs[2:end-1] .-= 1
     diffs .= 2 .^diffs 
     return diffs
 end
 
-N = 12
-@benchmark build_local_terms([[sx, sy], [sx, sy]], [[1., 1.] for _ in 1:N], [[i, i%N] for i in 1:N], N)
+# N = 12
+# @benchmark build_local_terms([[sx, sy], [sx, sy]], [[1., 1.] for _ in 1:N], [[i, i%N] for i in 1:N], N)
