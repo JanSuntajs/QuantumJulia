@@ -31,7 +31,8 @@ To avoid race conditions, `ψ0` is left unchanged and only `ψ1` is updated.
         # ψ0 is not changed; basically, we reverse
         # the approach of the Hamiltonian construction.
         # rather than looking which states can be accessed
-        # from the original state, we do the reverse.
+        # from the original state, we do the reverse - 
+        # we look which states are connected to the final one
         ψ1[i] += factor * ψ0[oldstate + 1]
     end  # i loop
 
