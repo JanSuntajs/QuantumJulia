@@ -1,17 +1,24 @@
-struct Basis{T<:Integer} 
+"""
+A struct representing a basis for a quantum system.
 
+# Fields
+- `size::T`: Size of the system.
+- `nup::Union{T, Vector{T}, Nothing}`: Number of up spins or a vector of up spins.
+- `states::Vector{T}`: Vector of basis states.
+- `nstates::T`: Number of basis states.
+
+# Constructor
+- `Basis(size::T, nup::Union{T, Vector{T}, Nothing})`: Creates a new `Basis` instance.
+"""
+struct Basis{T<:Integer} 
     size::T
-    nup::Union{T,Vector{T}, Nothing}
+    nup::Union{T, Vector{T}, Nothing}
     states::Vector{T}
     nstates::T
 
-
-    function Basis(size::T, nup::Union{T,Vector{T},Nothing}) where {T<:Integer}
-
+    function Basis(size::T, nup::Union{T, Vector{T}, Nothing}) where {T<:Integer}
         states = _getstates(size, nup)
-
         nstates = length(states)
-
         new{T}(size, nup, states, nstates)
     end
 end

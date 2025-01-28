@@ -42,5 +42,4 @@ println(ham._isset)
 λ, V = diagonalize(ham; method=:krylov)
 
 println(λ)
-
 # find the ground state
