@@ -1,5 +1,4 @@
 
-# using BenchmarkTools
 
 const sx = ls.staticize(sparse([1, 2], [2, 1], [0.5, 0.5], 2, 2))
 const sy = ls.staticize(sparse([1, 2], [2, 1], [-0.5im, 0.5im], 2, 2))
@@ -92,5 +91,3 @@ function _make_diffs(sitevec, N)
     return diffs
 end
 
-# N = 12
-# @benchmark build_local_terms([[sx, sy], [sx, sy]], [[1., 1.] for _ in 1:N], [[i, i%N] for i in 1:N], N)

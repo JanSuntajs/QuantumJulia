@@ -13,8 +13,8 @@ Calculates the interaction term for the given state.
 """
 @inline function interaction(state::T, i::T, j::T) where {T <: Integer}
 
-    factor_i, _ = sz(state, i)
-    factor_j, _ = sz(state, j)
+    factor_i, _ = ops.sz(state, i)
+    factor_j, _ = ops.sz(state, j)
 
     return factor_i * factor_j, state
 
@@ -36,8 +36,8 @@ Applies the spin raising and lowering operators to the given state.
 """
 @inline function spsm(state::T, i::T, j::T) where {T <: Integer}
 
-    factor_sm, state = sm(state, j)
-    factor_sp, state = sp(state, i)
+    factor_sm, state = ops.sm(state, j)
+    factor_sp, state = ops.sp(state, i)
     return factor_sm * factor_sp, state
 end
 
@@ -56,8 +56,8 @@ Applies the spin lowering and raising operators to the given state.
 """
 @inline function smsp(state::T, i::T, j::T) where {T <: Integer}
 
-    factor_sp, state = sp(state, j)
-    factor_sm, state = sm(state, i)
+    factor_sp, state = ops.sp(state, j)
+    factor_sm, state = ops.sm(state, i)
     return factor_sm * factor_sp, state
 end
 
@@ -103,7 +103,7 @@ Applies the diagonal terms of the Hamiltonian to the given state.
 @inline function _apply_diag!(ham, i, state, site, rows, cols, vals, count)
 
     ifactor, _ = interaction(state, site, (site+1) % ham.basis.size)
-    ffactor, _ = sz(state, site)
+    ffactor, _ = ops.sz(state, site)
     count += 1
     rows[count] = i
     cols[count] = i

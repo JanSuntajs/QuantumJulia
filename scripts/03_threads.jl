@@ -1,3 +1,15 @@
+# This script demonstrates the use of multithreading in Julia to apply a quantum operator
+# to a state vector in a thread-safe manner. It is recommended to run this script as a 
+# standalone file rather than in a notebook, as multithreading behavior can sometimes be 
+# unclear in notebook environments.
+#
+# # to run, do
+#
+# ```bash
+# julia --threads=auto --project scripts/03_threads.jl
+# ```
+#
+
 using DrWatson
 @quickactivate :QuantumJulia
 
@@ -38,6 +50,24 @@ To avoid race conditions, `ψ0` is left unchanged and only `ψ1` is updated.
 
 end
 
+# This should give inconsistent results if run in parallel
+# due to race conditions
+@inline function apply_sy_wrong(ψ0::Vector{T}, 
+    ψ1::Vector{T}, site::N) where {T <: Complex, N <: Integer}
+    Threads.@threads for i::N in eachindex(ψ1)
+
+        # we have to take i-1, the actual
+        # states go from 0 to 2^N-1
+        factor, newstate = ops.sy(i-1, site)
+
+        # here, we are appending to the index
+        # newstate + 1, which is not threadsafe;
+        # many processes may be trying to access
+        # it at once.
+        ψ1[newstate + 1] += factor * ψ0[i]
+    end  # i loop
+
+end
 """
     make_state(N)
 
@@ -59,5 +89,8 @@ N = 14
 ψ0 = make_state(N)
 ψ1 = similar(ψ0)
 
+
+
 # Benchmark the apply_sy! function
 @btime apply_sy!(ψ0, ψ1, 1) setup=(ψ0 = make_state(N); ψ1 = similar(ψ0))
+

@@ -42,9 +42,9 @@ module QuantumJulia
     using SparseArrays
 
     include("./operators/operators.jl")
-    using .Operators
-    include("./operators/spoperators.jl")
-    using .SpOperators
+    import .Operators as ops
+    include("./operators/spoperators/spoperators.jl")
+    import .SpOperators as sop
     include("./basis.jl")
     include("./hamiltonian.jl")
     include("./buildham.jl")

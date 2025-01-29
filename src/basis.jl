@@ -45,7 +45,7 @@ function _getstates(size::T,
     start::T = 0
 
     for nu in nup
-        states_ = selectstates(size, nu)
+        states_ = ops.selectstates(size, nu)
         states[start+1:start+length(states_)] .= states_
         start += T(binomial(size, nu))
     end
